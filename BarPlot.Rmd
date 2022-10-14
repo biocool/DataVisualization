@@ -1,0 +1,47 @@
+---
+title: "Bar Plot"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+```{r libs}
+library(ggplot2)
+library(dplyr)
+```
+
+
+
+```{r}
+dataFilePath <- "/Users/apple/Desktop/Eric/Research/Karen/Sara/Abstract INSAR_ASD_TD/4.5.2022/INSAR_pvalues.v2.csv"
+sara.p.value.df <- 
+  read.csv(dataFilePath)
+dim(sara.p.value.df)#32  5
+sara.p.value.df
+
+#adding log(p-val)
+sara.p.value.df$logPval <- 
+  -log2(sara.p.value.df$p_value)
+#threshold line
+sara.p.value.df$thresholdLine <- 
+  rep(-log2(0.05), nrow(sara.p.value.df))
+
+#setting the font size
+theme_set(theme_gray(base_size = 8 ))
+
+p3 <- 
+  sara.p.value.df %>%
+  ggplot( aes(x = reorder(measure_short, logPval),  y = logPval, fill = reorder(measure_short, logPval))) +  
+  geom_col() +
+  geom_errorbar(aes(x = measure_short, ymax = thresholdLine, ymin = thresholdLine),
+                size=0.3, linetype = "longdash", inherit.aes = F, width = 1, color = "red")+
+  facet_wrap(group~. , scales = "free") +  coord_flip() 
+
+theme_set(theme_gray(base_size = 10))
+
+p3 +
+  theme(legend.position="none")
+
+
+```
+
