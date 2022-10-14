@@ -13,7 +13,7 @@ library(dplyr)
 
 
 ```{r}
-dataFilePath <- "/Users/apple/Desktop/Eric/Research/Karen/Sara/Abstract INSAR_ASD_TD/4.5.2022/INSAR_pvalues.v2.csv"
+dataFilePath <- ""
 sara.p.value.df <- 
   read.csv(dataFilePath)
 dim(sara.p.value.df)#32  5
